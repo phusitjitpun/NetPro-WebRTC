@@ -10,6 +10,7 @@ var session = require('express-session');
 var bodyParser = require('body-parser');
 const { disconnect } = require('process');
 const { connect } = require('http2');
+
 var connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -17,7 +18,6 @@ var connection = mysql.createConnection({
     database: 'accounts'
     
 });
-
 
 app.use(session({
     secret: 'secret',
@@ -61,11 +61,20 @@ app.post('/auth', function(request, response) {
 
 
 io.on('connection', (socket) =>{
-    console.log(Date() + ': user connected');
-
+    let user = {
+        'username': 'user connected',
+        'times': Date()
+    }
+    let sql = ' INSERT INTO historys SET ?'
+    connection.query(sql, user)
     socket.on("disconnect", function(){
-        console.log(Date() + ": user disconnected");
-        });
+        let user = {
+            'username': 'user disconnected',
+            'times': Date()
+        }
+        let sql = ' INSERT INTO historys SET ?'
+        connection.query(sql, user)
+    });
      
 });
 
