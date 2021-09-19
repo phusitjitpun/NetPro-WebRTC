@@ -8,4 +8,4 @@ First times
 3.node app.js
 
 
-You have to chage database at app.js, because you will not run code. 
+You have to chage database at app.js, because you will can't run code. 
